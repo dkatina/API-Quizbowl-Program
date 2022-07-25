@@ -19,8 +19,9 @@ class User():
         for q in self.quiz:
             missed = {}
             clear()
-            print(f"Question #{n}:")
+            print(f"\n\nQuestion #{n}:")
             print(f"Authored By: {q['author']}")
+            print('~'*50)
             print(q['question'])
             answer = input("You're answer: ")
             if check_answer(answer, q['answer']): #Thoroughly checks your answer to see if it's correct
@@ -49,7 +50,7 @@ class User():
         quiz = []
         n = 0
         while n < 10:
-            q = choice(self.all_questions)
+            q = choice(self.all_questions)       #Ensures we don't have duplicate questions
             if q not in quiz:
                 quiz.append(q)
                 n += 1 
