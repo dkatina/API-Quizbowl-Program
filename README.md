@@ -25,4 +25,7 @@ Also, all modification; additions, edits, deletions update the UI in real time
 
 Because the Admin class inherits from the User class I can also choose to take a quiz see my score and all that jazz.
 
+my admin email: dylankatina@gmail.com
+my password: 123
+
 
