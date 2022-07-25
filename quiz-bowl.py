@@ -11,10 +11,8 @@ class User():
         self.quiz = []
         self.name = self.user_info['first_name'].title()
         self.token = self.user_info['token']
+        self.all_questions = get_all_questions(self.token)
         self.missed = []
-
-    def update(self):
-        self.userinfo = login_user(self.user_info['email'],'123')
     
     def take_quiz(self):
         n = 1
@@ -43,10 +41,19 @@ class User():
         #evaluates if answer is true or false
         #if true, increments the score
 
+    def get_total_questions(self):
+        self.all_questions = get_all_questions(self.token)
 
     def set_quiz(self):
         self.missed = []
-        self.quiz = get_quiz(self.token)
+        quiz = []
+        n = 0
+        while n < 10:
+            q = choice(self.all_questions)
+            if q not in quiz:
+                quiz.append(q)
+                n += 1 
+        self.quiz = quiz
 
     def display_score(self):
         print(f"""
@@ -100,7 +107,6 @@ class Admin(User):
             "answer": answer
         }
         response = create_a_question(self.token, payload)
-        self.update()
         return response
         #Gets question and answer from admin
         #creates payload
@@ -150,7 +156,6 @@ class Admin(User):
                 print("Invalid question ID!")
                 sleep(2)
         success = edit_specific_question(self.token, payload, id)
-        self.update()
         if success:
             print("Question successfully edited!")
         else:
@@ -172,7 +177,6 @@ class Admin(User):
                 delete = input("Are you sure you would like to delete this question?: (Y/N)").lower()
                 if delete == 'y':
                     delete_question(self.token, id)
-                    self.update()
                     print("Question successfully deleted")
                     sleep(2)
                     return
@@ -231,8 +235,8 @@ class UI:
     def main(self):
         clear()
         while True:
-            print("Welcome to the 20301 annual super quiz bowl-o-rama")
-            email = input("Login ith email or type 'register' to create and account: ").lower()
+            print("   \n\n\nWelcome to the 20301 annual super quiz bowl-o-rama")
+            email = input("\nLogin with email or type 'register' to create and account: ").lower()
             if email == "register":
                 success_register= self.register()
                 if success_register:

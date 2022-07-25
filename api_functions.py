@@ -50,15 +50,16 @@ def get_all_questions(token):
         headers=headers)
     return questions.json()['questions']
 
-def get_quiz(token):
+def get_quiz(token):  #Not as efficient as just storing all questions and building quizes from that requires 1 api call
     headers = {"Authorization": "Bearer "+token}
     questions = requests.get(
         url+endpoint_question+'/all',
         headers=headers)
+    data = questions.json()['questions']
     quiz = []
     n = 0
     while n < 10:
-        q = choice(questions.json()['questions'])
+        q = choice(data)
         if q not in quiz:
             quiz.append(q)
             n += 1 
